@@ -70,6 +70,7 @@ class WeiboFans():
                 user_info_data = detail_json['data']['userInfo']
                 for k in user_info_keys:
                     user_info[k] = user_info_data[k] if k in user_info_data.keys() else ''
+                user_info['uid'] = user_info_data['id'] if 'id' in user_info_data.keys() else ''
                 user_info['raw_data'] = detail
                 user_info['response_time'] = response_time
 
