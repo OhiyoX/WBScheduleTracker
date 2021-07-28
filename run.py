@@ -95,6 +95,9 @@ class WeiboFans():
         session = build_session(db_url=db_url)
         new_task = QueryTaskStack(**avail)
         try:
+            if session.query(QueryTaskStack.uid).filter_by(uid=avail['uid']).count() > 0:
+                print('已存在相似任务。')
+                return True
             session.add(new_task)
             session.commit()
         except Exception as err:
