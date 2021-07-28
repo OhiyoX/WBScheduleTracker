@@ -12,6 +12,11 @@ from datetime import datetime
 from typing import Any
 
 db_url = 'sqlite:///resource/database.db'
+with open('config.json','r') as fp:
+    config = json.load(fp)
+
+if config['remote']:
+    db_url=config['db_url']
 
 def table_attr(Table:Base) -> list:
     return list(filter(lambda x:not x.startswith('_'),Table.__dict__.keys()))
