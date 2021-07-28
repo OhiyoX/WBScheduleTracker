@@ -8,7 +8,7 @@
 
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from sqlalchemy import Column, INTEGER, CHAR, TEXT, DATETIME
+from sqlalchemy import Column, INTEGER, CHAR, TEXT, DATETIME,BIGINT
 from sqlalchemy.ext.declarative import declarative_base
 
 import os.path
@@ -21,19 +21,19 @@ class FollowerLog(Base):
     __tablename__ = "followerlogs"
 
     id = Column(INTEGER(), nullable=False, autoincrement=True, primary_key=True)
-    uid = Column(INTEGER(), nullable=False)
+    uid = Column(CHAR(255), nullable=False)
     alias_id = Column(CHAR(255), nullable=True)
     profile_image_url = Column(TEXT(),nullable=True)
     profile_url = Column(TEXT(),nullable=False)
     screen_name = Column(CHAR(255), nullable=False)
-    followers_count = Column(INTEGER(),nullable=False)
+    followers_count = Column(BIGINT(),nullable=False)
     raw_data = Column(TEXT(), nullable=True)
     response_time = Column(DATETIME(), nullable=False)
 
 class QueryTaskStack(Base):
 
     __tablename__ = 'querytaskstacks'
-    uid = Column(INTEGER(),nullable=False,primary_key=True)
+    uid = Column(CHAR(255),nullable=False,primary_key=True)
     screen_name = Column(CHAR(255),nullable=True)
     add_time = Column(DATETIME(),nullable=False)
 
@@ -45,9 +45,10 @@ def build_db(db_url):
 
 
 def build_session(db_url):
-    db_path = db_url.replace('sqlite:///','')
-    if not os.path.exists(db_path):
-        build_db(db_url)
+    if 'sqlite' in db_url:
+        db_path = db_url.replace('sqlite:///','')
+        if not os.path.exists(db_path):
+            build_db(db_url)
     engine = create_engine(db_url)
     Session = sessionmaker()
     session = Session(bind=engine)

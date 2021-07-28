@@ -100,7 +100,7 @@ class WeiboFans():
         session = build_session(db_url=db_url)
         new_task = QueryTaskStack(**avail)
         try:
-            if session.query(QueryTaskStack.uid).filter_by(uid=avail['uid']).count() > 0:
+            if session.query(QueryTaskStack.uid).filter_by(uid=str(avail['uid'])).count() > 0:
                 print('已存在相似任务。')
                 return True
             session.add(new_task)
@@ -126,4 +126,5 @@ class WeiboFans():
 
 if __name__ == '__main__':
     wf = WeiboFans()
+    # wf.add_query_task(uid='5108622151')
     wf.run()
