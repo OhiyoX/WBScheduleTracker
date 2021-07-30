@@ -79,12 +79,13 @@ class WeiboFans():
                 try:
                     session.add(new_log)
                     session.commit()
+                    print(f'成功添加数据：{user_info["screen_name"]}')
                 except Exception as err:
                     session.rollback()
                     print(err)
                     traceback.print_exc()
                     exit('数据库连接错误。')
-                return True
+        return True
 
 
     def add_query_task(self,**kwargs):
