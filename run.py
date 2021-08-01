@@ -116,8 +116,16 @@ class WeiboFans():
     def add_batch_query_task(self):
         pass
 
-    def del_query_task(self,**kwargs):
-        pass
+    def del_query_task(self,uid):
+        session = build_session(db_url=db_url)
+        try:
+            if session.query(QueryTaskStack).filter_by(uid=uid).count() > 0:
+                session.query(QueryTaskStack).filter_by(uid=uid).one().delete()
+                session.commit()
+            else:
+                print('uid不存在。')
+        except:
+            session.rollback()
 
 
     def run(self):
@@ -128,5 +136,4 @@ class WeiboFans():
 
 if __name__ == '__main__':
     wf = WeiboFans()
-    # wf.add_query_task(uid='5108622151')
     wf.run()
