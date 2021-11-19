@@ -73,6 +73,9 @@ class WeiboFans():
                 user_info['uid'] = user_info_data['id'] if 'id' in user_info_data.keys() else ''
                 user_info['raw_data'] = detail
                 user_info['response_time'] = response_time
+                if isinstance(user_info['followers_count'], str):
+                    user_info['followers_count'] = user_info['followers_count'].replace('万','0000')
+
 
                 new_log = FollowerLog(**user_info)
                 session = build_session(db_url=db_url)
