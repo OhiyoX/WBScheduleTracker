@@ -74,8 +74,7 @@ class WeiboFans():
                 user_info['raw_data'] = detail
                 user_info['response_time'] = response_time
                 if isinstance(user_info['followers_count'], str):
-                    user_info['followers_count'] = user_info['followers_count'].replace('万','0000').\
-                        replace('.','')
+                    user_info['followers_count'] = int(float(user_info['followers_count'].replace('万',''))*10000)
 
 
                 new_log = FollowerLog(**user_info)
